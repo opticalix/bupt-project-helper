@@ -1,7 +1,7 @@
-package com.opticalix;
+package com.opticalix.model;
 
 public class YjjMedicine {
-    private long id;
+    private Long id;
     private String approval_number;
     private String product_name;
     private String english_name;
@@ -16,11 +16,11 @@ public class YjjMedicine {
     private String drug_code;
     private String drug_code_note;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -136,15 +136,15 @@ public class YjjMedicine {
                 ", product_name='" + product_name + '\'' +
                 ", english_name='" + english_name + '\'' +
                 ", goods_name='" + goods_name + '\'' +
-                ", dosage_form='" + dosage_form + '\'' +
-                ", specification='" + specification + '\'' +
-                ", production_unit='" + production_unit + '\'' +
-                ", production_address='" + production_address + '\'' +
-                ", product_category='" + product_category + '\'' +
-                ", approval_date='" + approval_date + '\'' +
-                ", original_approval_number='" + original_approval_number + '\'' +
-                ", drug_code='" + drug_code + '\'' +
-                ", drug_code_note='" + drug_code_note + '\'' +
+//                ", dosage_form='" + dosage_form + '\'' +
+//                ", specification='" + specification + '\'' +
+//                ", production_unit='" + production_unit + '\'' +
+//                ", production_address='" + production_address + '\'' +
+//                ", product_category='" + product_category + '\'' +
+//                ", approval_date='" + approval_date + '\'' +
+//                ", original_approval_number='" + original_approval_number + '\'' +
+//                ", drug_code='" + drug_code + '\'' +
+//                ", drug_code_note='" + drug_code_note + '\'' +
                 '}';
     }
 }
