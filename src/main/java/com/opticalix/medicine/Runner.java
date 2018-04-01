@@ -6,6 +6,7 @@ import com.opticalix.model.YjjMedicine;
 import com.opticalix.utils.Logger;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,11 +20,12 @@ import java.util.Map;
 public class Runner {
 
     private Map<Long, Long> mRelation = new HashMap<>();
+    private List<Medicine> mMissMatchMedicineList = new ArrayList<>();
 
     public void run() throws SQLException {
         long startTime = System.currentTimeMillis();
         MedicineDaoImpl daoImpl = new MedicineDaoImpl();
-        List<Medicine> medicineList = daoImpl.query(Medicine.class, "select * from %s limit 100", DatabaseHelper.TABLE_NAME_JD_MEDICINE);
+        List<Medicine> medicineList = daoImpl.query(Medicine.class, "select * from %s", DatabaseHelper.TABLE_NAME_JD_MEDICINE);
 
         if (medicineList == null) {
             return;
@@ -37,9 +39,15 @@ public class Runner {
                 //try strategy 2
                 matchYjjMedicine = Matcher.match(medicine, Matcher.MATCH_STRATEGY_BRAND_NAME_LIKE);
             }
-
+            if (matchYjjMedicine == null) {
+                //try strategy 3
+                matchYjjMedicine = Matcher.match(medicine, Matcher.MATCH_STRATEGY_MEDICINE_NAME_LIKE);
+            }
             if (matchYjjMedicine != null) {
                 mRelation.put(matchYjjMedicine.getId(), medicine.getId());
+            } else {
+                //check out which medicine is missing
+                mMissMatchMedicineList.add(medicine);
             }
         }
         long spendSec = (System.currentTimeMillis() - startTime) / 1000;
