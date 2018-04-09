@@ -3,7 +3,9 @@ package com.opticalix.medicine;
 import com.opticalix.algo.Matcher;
 import com.opticalix.model.Medicine;
 import com.opticalix.model.YjjMedicine;
+import com.opticalix.tech_consult.CustomHiveServer2Auth;
 import com.opticalix.utils.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,11 +23,12 @@ public class Runner {
 
     private Map<Long, Long> mRelation = new HashMap<>();
     private List<Medicine> mMissMatchMedicineList = new ArrayList<>();
+    private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CustomHiveServer2Auth.class);
 
     public void run() throws SQLException {
         long startTime = System.currentTimeMillis();
         MedicineDaoImpl daoImpl = new MedicineDaoImpl();
-        List<Medicine> medicineList = daoImpl.query(Medicine.class, "select * from %s", DatabaseHelper.TABLE_NAME_JD_MEDICINE);
+        List<Medicine> medicineList = daoImpl.query(Medicine.class, "select * from %s limit 1", DatabaseHelper.TABLE_NAME_JD_MEDICINE);
 
         if (medicineList == null) {
             return;
@@ -51,8 +54,9 @@ public class Runner {
             }
         }
         long spendSec = (System.currentTimeMillis() - startTime) / 1000;
-        Logger.p("targetNum=%d, matchNum=%d, completeRate=%.2f%%, useTime=%ds", targetNum, mRelation.size(), 100 * mRelation.size() / (float) targetNum, spendSec);
+//        Logger.p("targetNum=%d, matchNum=%d, completeRate=%.2f%%, useTime=%ds", targetNum, mRelation.size(), 100 * mRelation.size() / (float) targetNum, spendSec);
 //        Logger.p(mRelation.toString());
+        LOGGER.info(String.format("targetNum=%d, matchNum=%d, completeRate=%.2f%%, useTime=%ds", targetNum, mRelation.size(), 100 * mRelation.size() / (float) targetNum, spendSec));
     }
 
 }
